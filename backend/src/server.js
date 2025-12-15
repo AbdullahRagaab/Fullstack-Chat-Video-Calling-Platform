@@ -11,16 +11,28 @@ import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
 
 const __dirname = path.resolve();
 
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true, // allow frontend to send cookies
+//   })
+// );
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, // allow frontend to send cookies
+    origin:
+      process.env.NODE_ENV === "production"
+        ? true
+        : "http://localhost:5173",
+    credentials: true,
   })
 );
+
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -36,6 +48,14 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
+
+
+
+console.log("PORT:", process.env.PORT);
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("STREAM_API_KEY:", process.env.STREAM_API_KEY);
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
