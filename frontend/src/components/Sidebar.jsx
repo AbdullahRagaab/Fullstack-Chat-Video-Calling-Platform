@@ -16,7 +16,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* OVERLAY - Mobile only */}
+      {/* Mobile only */}
       {isOpen && (
         <div
           onClick={onClose}
